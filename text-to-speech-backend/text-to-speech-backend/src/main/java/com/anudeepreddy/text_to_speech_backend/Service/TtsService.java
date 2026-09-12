@@ -16,7 +16,7 @@ public class TtsService {
     private SpeechRepository speechRepository;
 
     @Autowired
-    public TtsService(ApiIntegration apiIntegration) {
+    public TtsService(ApiIntegration apiIntegration,SpeechRepository speechRepository) {
         this.apiIntegration = apiIntegration;
         this.speechRepository = speechRepository;
     }

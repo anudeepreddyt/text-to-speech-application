@@ -1,5 +1,6 @@
 package com.anudeepreddy.text_to_speech_backend.Integration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,6 +15,8 @@ public class ApiIntegration {
 
     private WebClient webClient;
     private final ObjectMapper objectMapper;
+    private TranslationIntegration translationIntegration;
+
 
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
@@ -21,26 +24,34 @@ public class ApiIntegration {
     @Value("${gemini.api.key}")
     private String geminiApiKey;
 
-    public ApiIntegration(ObjectMapper objectMapper, WebClient.Builder webClientBuilder) {
+    @Autowired
+    public ApiIntegration(ObjectMapper objectMapper, WebClient.Builder webClientBuilder,TranslationIntegration translationIntegration) {
         this.objectMapper = objectMapper;
         this.webClient = webClientBuilder.build();
+        this.translationIntegration=translationIntegration;
+
     }
 
     public byte[] generateSpeech(String text, String voice,String language) {
 
+        String changed_text= translationIntegration.translate( text,  language);
+
+
+        if (changed_text == null || changed_text.isBlank()) {
+            throw new RuntimeException("Translation returned empty text");
+        }
+
         Map<String, Object> requestBody = Map.of(
                 "model", "gemini-3.1-flash-tts-preview",
-                "input", "Generate speech for the following text. Speak it in "
-                        + language
-                        + ". Do not translate or change the text. Keep the exact words and pronunciation appropriate for the selected language: "
-                        + text,
+                "input", changed_text,
                 "response_format", Map.of(
                         "type", "audio"
                 ),
                 "generation_config", Map.of(
                         "speech_config", new Object[]{
                                 Map.of(
-                                        "voice", voice
+                                        "voice", voice,
+                                        "language",getLanguageCode(language)
                                 )
                         }
                 )
@@ -186,6 +197,23 @@ public class ApiIntegration {
 
         buffer[offset] = (byte) (value & 0xff);
         buffer[offset + 1] = (byte) ((value >> 8) & 0xff);
+    }
+
+    public String getLanguageCode(String language){
+        return switch (language.toLowerCase()){
+            case "english" -> "en-IN";
+            case "hindi" -> "hi-IN";
+            case "gujarati" -> "gu-IN";
+            case "marathi" -> "mr-IN";
+            case "spanish" -> "es-ES";
+            case "french" -> "fr-FR";
+            case "german" -> "de-DE";
+            case "telugu" -> "te-IN";
+
+            default -> throw new IllegalArgumentException(
+                    "Unsupported language: " + language
+            );
+        };
     }
 
 }
