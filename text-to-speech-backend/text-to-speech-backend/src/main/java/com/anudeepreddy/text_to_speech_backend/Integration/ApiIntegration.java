@@ -201,14 +201,21 @@ public class ApiIntegration {
 
     public String getLanguageCode(String language){
         return switch (language.toLowerCase()){
-            case "english" -> "en-IN";
-            case "hindi" -> "hi-IN";
-            case "gujarati" -> "gu-IN";
-            case "marathi" -> "mr-IN";
-            case "spanish" -> "es-ES";
-            case "french" -> "fr-FR";
-            case "german" -> "de-DE";
-            case "telugu" -> "te-IN";
+            case "english" -> "en";
+            case "hindi" -> "hi";
+            case "telugu" -> "te";
+            case "tamil" -> "ta";
+            case "kannada" -> "kn";
+            case "malayalam" -> "ml";
+            case "marathi" -> "mr";
+            case "gujarati" -> "gu";
+            case "bengali" -> "bn";
+            case "punjabi" -> "pa";
+            case "spanish" -> "es";
+            case "french" -> "fr";
+            case "german" -> "de";
+            case "japanese" -> "ja";
+            case "korean" -> "ko";
 
             default -> throw new IllegalArgumentException(
                     "Unsupported language: " + language

@@ -12,11 +12,19 @@ public class LanguageService {
         return List.of(
                 "English",
                 "Hindi",
-                "Gujarati",
+                "Telugu",
+                "Tamil",
+                "Kannada",
+                "Malayalam",
                 "Marathi",
+                "Gujarati",
+                "Bengali",
+                "Punjabi",
                 "Spanish",
                 "French",
-                "German"
+                "German",
+                "Japanese",
+                "Korean"
         );
     }
 }
