@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,9 @@ public class TtsController {
 
 
     @PostMapping(value = "/tts",produces = "audio/wav")
-    public ResponseEntity<byte[]> generateSpeech(@Valid @RequestBody TtsRequest ttsRequest){
-        byte[] audio=ttsService.generateSpeech(ttsRequest);
+    public ResponseEntity<byte[]> generateSpeech(@Valid @RequestBody TtsRequest ttsRequest, Authentication authentication){
+        String username=authentication.getName();
+        byte[] audio=ttsService.generateSpeech(ttsRequest,username);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("audio/wav"))

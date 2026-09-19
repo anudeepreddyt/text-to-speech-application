@@ -5,6 +5,7 @@ import com.anudeepreddy.text_to_speech_backend.Integration.DocExtractionIntegrat
 import com.anudeepreddy.text_to_speech_backend.Service.TtsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,8 @@ public class DocumentTextController {
     public ResponseEntity<byte[]> generateSpeechFromDoc(
             @RequestParam("file") MultipartFile file,
             @RequestParam("voice") String voice,
-            @RequestParam("language") String language
+            @RequestParam("language") String language,
+            Authentication authentication
             ){
 
         String extractText= docExtractionIntegration.extractText(file);
@@ -41,8 +43,9 @@ public class DocumentTextController {
                 voice,
                 language
         );
+        String username=authentication.getName();
 
-        byte[] audio=ttsService.generateSpeech(ttsRequest);
+        byte[] audio=ttsService.generateSpeech(ttsRequest,username);
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")).body(audio);
     }
