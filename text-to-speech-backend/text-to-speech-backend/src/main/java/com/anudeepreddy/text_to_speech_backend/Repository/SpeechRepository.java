@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface SpeechRepository extends JpaRepository<SpeechHistory,Integer> {
     List<SpeechHistory> findByUsersModel(UsersModel usersModel);
+
 }

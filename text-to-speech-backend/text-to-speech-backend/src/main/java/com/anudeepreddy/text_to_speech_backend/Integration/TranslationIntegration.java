@@ -35,6 +35,8 @@ public class TranslationIntegration {
                 - Do not add quotation marks.
                 - Preserve the original meaning.
                 - Do not summarize the text.
+                - The response MUST NOT exceed 255 characters.
+                - If necessary, shorten the response to stay within 255 characters.
 
                 Text:
                 %s

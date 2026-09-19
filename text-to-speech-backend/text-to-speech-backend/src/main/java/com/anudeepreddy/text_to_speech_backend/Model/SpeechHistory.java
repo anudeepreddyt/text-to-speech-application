@@ -25,6 +25,10 @@ public class SpeechHistory {
     private LocalDateTime createdAt;
     private String language;
 
+    private String aiReply;
+    @Lob
+    private byte[] aiAudio;
+
     @ManyToOne
     @JoinColumn(name = "userid",nullable = false)
     private UsersModel usersModel;
