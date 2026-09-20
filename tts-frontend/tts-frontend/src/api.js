@@ -1,7 +1,11 @@
 // Talks to the text-to-speech-backend Spring Boot API.
 // Change VITE_API_BASE_URL in a .env file if your backend runs somewhere
 // other than http://localhost:8080.
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+if (!BASE_URL) {
+  throw new Error('VITE_API_BASE_URL is not configured')
+}
 
 const AUTH_KEY = 'tts.authToken'
 const REFRESH_KEY = 'tts.refreshToken'
