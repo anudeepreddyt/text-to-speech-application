@@ -9,8 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api")@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
 public class LoginController {
 
     private UserService userService;

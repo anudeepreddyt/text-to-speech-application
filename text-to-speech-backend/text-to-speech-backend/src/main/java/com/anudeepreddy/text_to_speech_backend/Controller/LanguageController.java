@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
 public class LanguageController {
     private LanguageService languageService;
     @Autowired

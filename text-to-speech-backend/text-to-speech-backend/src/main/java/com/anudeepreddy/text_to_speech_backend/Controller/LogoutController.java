@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
 public class LogoutController {
     @Autowired
     private UserService userService;
