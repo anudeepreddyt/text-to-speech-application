@@ -2,6 +2,7 @@ package com.anudeepreddy.text_to_speech_backend.Controller;
 
 import com.anudeepreddy.text_to_speech_backend.DTO.TtsRequest;
 import com.anudeepreddy.text_to_speech_backend.Integration.DocExtractionIntegration;
+import com.anudeepreddy.text_to_speech_backend.Model.SpeechHistory;
 import com.anudeepreddy.text_to_speech_backend.Service.TtsService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +44,9 @@ public class DocumentTextController {
         );
         String username=authentication.getName();
 
-        byte[] audio=ttsService.generateSpeech(ttsRequest,username);
+        SpeechHistory history=ttsService.generateSpeech(ttsRequest,username);
 
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")).body(audio);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")).body(history.getAudioFormat());
     }
 
 
