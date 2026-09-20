@@ -44,7 +44,7 @@ public class SecurityConfiguration {
 
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://text-to-speech-application-frontend.onrender.com"
+                "https://text-to-speech-application-frontend.onrender.com/api"
         ));
 
         configuration.setAllowedMethods(List.of(
