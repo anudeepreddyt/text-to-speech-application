@@ -43,7 +43,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("https://text-to-speech-application-frontend.onrender.com")
+                List.of("http://localhost:5173","https://text-to-speech-application-frontend.onrender.com")
         );
 
         configuration.setAllowedMethods(
