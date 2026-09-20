@@ -49,4 +49,23 @@ public class JWTFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request,response);
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getServletPath();
+        String method = request.getMethod();
+
+        // Skip CORS preflight requests
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return true;
+        }
+
+        // Public endpoints
+        return path.equals("/api/login")
+                || path.equals("/api/register")
+                || path.equals("/api/refreshToken")
+                || path.equals("/api/logout")
+                || path.equals("/api/health");
+    }
 }

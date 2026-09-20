@@ -88,6 +88,7 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/register").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/refreshToken").permitAll()
