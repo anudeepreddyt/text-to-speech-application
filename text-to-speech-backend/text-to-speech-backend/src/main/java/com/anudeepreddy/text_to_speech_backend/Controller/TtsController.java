@@ -1,6 +1,7 @@
 package com.anudeepreddy.text_to_speech_backend.Controller;
 
 import com.anudeepreddy.text_to_speech_backend.DTO.TtsRequest;
+import com.anudeepreddy.text_to_speech_backend.Model.SpeechHistory;
 import com.anudeepreddy.text_to_speech_backend.Service.TtsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,12 @@ public class TtsController {
     @PostMapping(value = "/tts",produces = "audio/wav")
     public ResponseEntity<byte[]> generateSpeech(@Valid @RequestBody TtsRequest ttsRequest, Authentication authentication){
         String username=authentication.getName();
-        byte[] audio=ttsService.generateSpeech(ttsRequest,username);
+        SpeechHistory history=ttsService.generateSpeech(ttsRequest,username);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("audio/wav"))
-                .body(audio);
+                .header("X-Speech-Id", String.valueOf(history.getId()))
+                .body(history.getAudioFormat());
 
     }
 }

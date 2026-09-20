@@ -31,7 +31,7 @@ public class TtsService {
     @Autowired
     private UserRepository userRepository;
 
-    public byte[] generateSpeech(TtsRequest ttsRequest,String username){
+    public SpeechHistory generateSpeech(TtsRequest ttsRequest,String username){
         byte[] audio= apiIntegration.generateSpeech(ttsRequest.getText(),ttsRequest.getVoice(),ttsRequest.getLanguage());
         UsersModel usersModel=userRepository.findByUsername(username).orElseThrow(()->new RuntimeException("Unable to process request user might not exist"));
         SpeechHistory history=new SpeechHistory();
@@ -46,7 +46,7 @@ public class TtsService {
         speechRepository.save(history);
 
 
-        return audio;
+        return history;
     }
 
     @Transactional(readOnly = true)
