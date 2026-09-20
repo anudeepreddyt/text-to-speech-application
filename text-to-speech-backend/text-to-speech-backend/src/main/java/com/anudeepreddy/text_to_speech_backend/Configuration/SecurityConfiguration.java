@@ -53,6 +53,7 @@ public class SecurityConfiguration {
         configuration.setAllowedHeaders(
                 List.of("*")
         );
+        configuration.setExposedHeaders(List.of("X-Speech-Id"));
 
         configuration.setAllowCredentials(true);
 

@@ -91,7 +91,7 @@ export default function DocumentPanel({ languages, voices }) {
           </div>
           {speechId != null && (
             <div className="ai-reply-wrap">
-              <AiReplyBlock id={speechId} />
+              <AiReplyBlock key={speechId} id={speechId} />
             </div>
           )}
         </div>
