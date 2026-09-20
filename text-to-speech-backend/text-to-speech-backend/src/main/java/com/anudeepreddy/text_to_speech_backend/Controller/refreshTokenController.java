@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
+
 public class refreshTokenController {
 
     private final UserService userService;

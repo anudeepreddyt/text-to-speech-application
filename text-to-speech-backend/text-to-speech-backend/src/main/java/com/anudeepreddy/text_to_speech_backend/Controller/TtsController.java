@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
+
 public class TtsController {
 
     private TtsService ttsService;

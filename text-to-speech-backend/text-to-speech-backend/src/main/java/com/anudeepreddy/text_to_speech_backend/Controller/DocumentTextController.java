@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
 public class DocumentTextController {
 
     private final DocExtractionIntegration docExtractionIntegration;

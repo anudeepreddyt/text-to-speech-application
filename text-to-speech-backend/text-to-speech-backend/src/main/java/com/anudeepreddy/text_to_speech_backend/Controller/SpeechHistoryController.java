@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://text-to-speech-application-frontend.onrender.com")
+
 public class SpeechHistoryController {
 
     private final TtsService ttsService;
