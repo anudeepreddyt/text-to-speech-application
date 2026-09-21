@@ -58,11 +58,17 @@ public class JWTService {
     }
 
     public boolean isValid(String token, UserDetails userDetails){
-        final String username=extractUsername(token);
-        if(username.equals(userDetails.getUsername())){
-            return true;
-        }
-        else
+        try {
+
+            final String username = extractUsername(token);
+
+            return username != null
+                    && username.equals(userDetails.getUsername())
+                    && !isExpired(token);
+
+        } catch (Exception exception) {
+
             return false;
+        }
     }
 }

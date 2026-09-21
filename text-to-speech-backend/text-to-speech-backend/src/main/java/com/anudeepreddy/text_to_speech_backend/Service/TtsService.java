@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class TtsService {

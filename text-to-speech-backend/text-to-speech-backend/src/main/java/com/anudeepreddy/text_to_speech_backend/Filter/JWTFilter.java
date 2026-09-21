@@ -30,29 +30,57 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-       try {
-            String token = null;
-            String username = null;
-            String authHeader = request.getHeader("Authorization");
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                token = authHeader.substring(7);
-                username = jwtService.extractUsername(token);
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
+            String token = authHeader.substring(7);
+
+            try {
+
+                String username = jwtService.extractUsername(token);
+
+                if (username != null
+                        && SecurityContextHolder.getContext()
+                        .getAuthentication() == null) {
+
+                    UserDetails userDetails =
+                            myUserDetailService.loadUserByUsername(username);
+
+                    if (jwtService.isValid(token, userDetails)) {
+
+                        UsernamePasswordAuthenticationToken authenticationToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.getAuthorities()
+                                );
+
+                        authenticationToken.setDetails(
+                                new WebAuthenticationDetailsSource()
+                                        .buildDetails(request)
+                        );
+
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(authenticationToken);
+                    }
+                }
+
+            } catch (Exception exception) {
+
+                SecurityContextHolder.clearContext();
+
+                // Invalid, expired, or malformed JWT.
+                // Protected request will not be authenticated.
             }
+        }
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = myUserDetailService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-            }
-
-        } catch (Exception exception) {
-           // Invalid or expired JWT
-           SecurityContextHolder.clearContext();
-       }
         filterChain.doFilter(request, response);
     }
 
