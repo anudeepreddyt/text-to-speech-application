@@ -45,7 +45,7 @@ public class DocumentTextController {
 
         SpeechHistory history=ttsService.generateSpeech(ttsRequest,username);
 
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")) .body(history.getAudioFormat());
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType("audio/wav")) .header("X-Speech-Id", String.valueOf(history.getId())).body(history.getAudioFormat());
     }
 
 
